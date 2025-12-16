@@ -20,7 +20,7 @@ export function removeDuplicatesSet(arr) {
   if (!Array.isArray(arr)) {
     throw new TypeError("removeDuplicates: input must be an array");
   }
-  return Array.from(new Set(arr)) ;
+  return Array.from(new Set(arr));
 }
 
 export function removeDuplicatesFilter(arr) {
