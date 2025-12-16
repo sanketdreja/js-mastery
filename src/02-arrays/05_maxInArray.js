@@ -1,9 +1,7 @@
 import { assertEqual } from '../utils/assert.js';
 
 /**
- * maxInArrayLoop - finds the maximum number in an array using loop
- * @param {number[]} arr
- * @returns {number} max number in arr
+ * maxInArrayLoop - finds max using loop
  */
 export function maxInArrayLoop(arr) {
   if (!Array.isArray(arr)) {
@@ -16,17 +14,14 @@ export function maxInArrayLoop(arr) {
   let max = arr[0];
 
   for (let i = 1; i < arr.length; i++) {
-    if (arr[i] > max) {
-      max = arr[i];
-    }
+    if (arr[i] > max) max = arr[i];
   }
+
   return max;
 }
 
 /**
- * maxInArrayReduce - finds the maximum number in an array using reduce
- * @param {number[]} arr
- * @returns {number} max number in arr
+ * maxInArrayReduce - finds max using reduce
  */
 export function maxInArrayReduce(arr) {
   if (!Array.isArray(arr)) {
@@ -37,14 +32,12 @@ export function maxInArrayReduce(arr) {
   }
 
   return arr.reduce((max, current) => {
-    return max + current;
-  }, 0);
+    return current > max ? current : max;
+  }, arr[0]);
 }
 
 /**
- * maxInArrayMethod - finds the maximum number in an array using Math.max
- * @param {number[]} arr
- * @returns {number} max number in arr
+ * maxInArrayMethod - finds max using Math.max
  */
 export function maxInArrayMethod(arr) {
   if (!Array.isArray(arr)) {
@@ -57,14 +50,18 @@ export function maxInArrayMethod(arr) {
   return Math.max(...arr);
 }
 
-// tests
-assertEqual(maxInArrayLoop([1, 3, 2, 5, 4]), 5, 'loop: normal case');
-assertEqual(maxInArrayLoop([-10, -3, -20, -5]), -3, 'loop: all negative numbers');
-assertEqual(maxInArrayLoop([7]), 7, 'loop: single element array');
-assertEqual(maxInArrayReduce([1, 3, 2, 5, 4]), 15, 'reduce: normal case');
-assertEqual(maxInArrayReduce([-10, -3, -20, -5]), -38, 'reduce: all negative numbers');
-assertEqual(maxInArrayReduce([7]), 7, 'reduce: single element array');
-assertEqual(maxInArrayMethod([1, 3, 2, 5, 4]), 5, 'method: normal case');
-assertEqual(maxInArrayMethod([-10, -3, -20, -5]), -3, 'method: all negative numbers');
-assertEqual(maxInArrayMethod([7]), 7, 'method: single element array');
+/* tests */
+
+assertEqual(maxInArrayLoop([1, 3, 2, 5, 4]), 5, 'loop: normal');
+assertEqual(maxInArrayLoop([-10, -3, -20, -5]), -3, 'loop: negatives');
+assertEqual(maxInArrayLoop([7]), 7, 'loop: single');
+
+assertEqual(maxInArrayReduce([1, 3, 2, 5, 4]), 5, 'reduce: normal');
+assertEqual(maxInArrayReduce([-10, -3, -20, -5]), -3, 'reduce: negatives');
+assertEqual(maxInArrayReduce([7]), 7, 'reduce: single');
+
+assertEqual(maxInArrayMethod([1, 3, 2, 5, 4]), 5, 'method: normal');
+assertEqual(maxInArrayMethod([-10, -3, -20, -5]), -3, 'method: negatives');
+assertEqual(maxInArrayMethod([7]), 7, 'method: single');
+
 console.log('05_maxInArray tests passed ✅');
