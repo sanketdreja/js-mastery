@@ -1,7 +1,7 @@
-import { assertDeepEqual } from "../utils/assert.js";
+import { assertDeepEqual } from '../utils/assert.js';
 export function removeDuplicatesLoop(arr) {
   if (!Array.isArray(arr)) {
-    throw new TypeError("removeDuplicates: input must be an array");
+    throw new TypeError('removeDuplicates: input must be an array');
   }
 
   // TODO: create result array
@@ -18,7 +18,7 @@ export function removeDuplicatesLoop(arr) {
 }
 export function removeDuplicatesSet(arr) {
   if (!Array.isArray(arr)) {
-    throw new TypeError("removeDuplicates: input must be an array");
+    throw new TypeError('removeDuplicates: input must be an array');
   }
   return Array.from(new Set(arr));
 }
@@ -35,47 +35,23 @@ If you are at index 2, but indexOf says that item first appeared at index 0, the
 
 If your index matches the indexOf result, you are the original. */
   if (!Array.isArray(arr)) {
-    throw new TypeError("removeDuplicates: input must be an array");
+    throw new TypeError('removeDuplicates: input must be an array');
   }
   return arr.filter((item, index) => arr.indexOf(item) === index);
 }
 
 /* tests */
 
-assertDeepEqual(removeDuplicatesLoop([]), [], "loop: empty");
-assertDeepEqual(
-  removeDuplicatesLoop([1, 1, 2, 2, 3]),
-  [1, 2, 3],
-  "loop: numbers",
-);
-assertDeepEqual(
-  removeDuplicatesLoop(["a", "a", "b", "a"]),
-  ["a", "b"],
-  "loop: strings",
-);
+assertDeepEqual(removeDuplicatesLoop([]), [], 'loop: empty');
+assertDeepEqual(removeDuplicatesLoop([1, 1, 2, 2, 3]), [1, 2, 3], 'loop: numbers');
+assertDeepEqual(removeDuplicatesLoop(['a', 'a', 'b', 'a']), ['a', 'b'], 'loop: strings');
 
-assertDeepEqual(removeDuplicatesSet([]), [], "set: empty");
-assertDeepEqual(
-  removeDuplicatesSet([1, 1, 2, 2, 3]),
-  [1, 2, 3],
-  "set: numbers",
-);
-assertDeepEqual(
-  removeDuplicatesSet(["a", "a", "b", "a"]),
-  ["a", "b"],
-  "set: strings",
-);
+assertDeepEqual(removeDuplicatesSet([]), [], 'set: empty');
+assertDeepEqual(removeDuplicatesSet([1, 1, 2, 2, 3]), [1, 2, 3], 'set: numbers');
+assertDeepEqual(removeDuplicatesSet(['a', 'a', 'b', 'a']), ['a', 'b'], 'set: strings');
 
-assertDeepEqual(removeDuplicatesFilter([]), [], "filter: empty");
-assertDeepEqual(
-  removeDuplicatesFilter([1, 1, 2, 2, 3]),
-  [1, 2, 3],
-  "filter: numbers",
-);
-assertDeepEqual(
-  removeDuplicatesFilter(["a", "a", "b", "a"]),
-  ["a", "b"],
-  "filter: strings",
-);
+assertDeepEqual(removeDuplicatesFilter([]), [], 'filter: empty');
+assertDeepEqual(removeDuplicatesFilter([1, 1, 2, 2, 3]), [1, 2, 3], 'filter: numbers');
+assertDeepEqual(removeDuplicatesFilter(['a', 'a', 'b', 'a']), ['a', 'b'], 'filter: strings');
 
-console.log("08_removeDuplicates tests passed ✅");
+console.log('08_removeDuplicates tests passed ✅');
