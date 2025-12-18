@@ -1,4 +1,4 @@
-import { assertEqual } from '../utils/assert';
+import { assertEqual } from '../utils/assert.js';
 /**
  * minInArrayLoop - finds min using loop
  */
