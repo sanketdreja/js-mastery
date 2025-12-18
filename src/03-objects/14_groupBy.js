@@ -1,95 +1,82 @@
 import { assertDeepEqual } from '../utils/assert.js';
 
 /**
- * groupByLoop - groups array items by a key using loop.
- * @param {Object[]} arr
- * @param {(item: Object) => string} keyFn
- * @returns {Object}
+ * groupByLoop
  */
-export function groupByLoop(arr, keyFn) {
+export function groupByLoop(arr, key) {
   if (!Array.isArray(arr)) {
-    throw new TypeError('groupByLoop: input must be an array');
+    throw new TypeError('groupBy: input must be an array');
   }
-  if (typeof keyFn !== 'function') {
-    throw new TypeError('groupByLoop: keyFn must be a function');
+  if (typeof key !== 'string') {
+    throw new TypeError('groupBy: key must be a string');
   }
 
   const result = {};
 
   for (const item of arr) {
-    const key = keyFn(item);
+    const groupKey = item?.[key];
 
-    if (!result[key]) {
-      result[key] = [];
-    }
+    // optional: treat missing key as "undefined" group
+    const bucket = String(groupKey);
 
-    result[key].push(item);
+    if (!result[bucket]) result[bucket] = [];
+    //     Use:
+    // acc[bucket] ??= [];
+    // Why? It only initializes when undefined/null, and reads cleaner.
+    result[bucket].push(item);
   }
 
   return result;
 }
 
 /**
- * groupByReduce - groups array items by a key using reduce.
- * @param {Object[]} arr
- * @param {(item: Object) => string} keyFn
- * @returns {Object}
+ * groupByReduce
  */
-export function groupByReduce(arr, keyFn) {
+export function groupByReduce(arr, key) {
   if (!Array.isArray(arr)) {
-    throw new TypeError('groupByReduce: input must be an array');
+    throw new TypeError('groupBy: input must be an array');
   }
-  if (typeof keyFn !== 'function') {
-    throw new TypeError('groupByReduce: keyFn must be a function');
+  if (typeof key !== 'string') {
+    throw new TypeError('groupBy: key must be a string');
   }
 
   return arr.reduce((acc, item) => {
-    const key = keyFn(item);
+    const groupKey = item?.[key];
+    const bucket = String(groupKey);
 
-    if (!acc[key]) {
-      acc[key] = [];
-    }
-
-    acc[key].push(item);
+    if (!acc[bucket]) acc[bucket] = [];
+    acc[bucket].push(item);
     return acc;
   }, {});
 }
 
 /* tests */
-
 const users = [
   { name: 'Alice', role: 'admin' },
   { name: 'Bob', role: 'user' },
-  { name: 'Charlie', role: 'admin' },
-  { name: 'Dave', role: 'user' },
+  { name: 'Eve', role: 'admin' },
 ];
 
 assertDeepEqual(
-  groupByLoop(users, (u) => u.role),
+  groupByLoop(users, 'role'),
   {
     admin: [
       { name: 'Alice', role: 'admin' },
-      { name: 'Charlie', role: 'admin' },
+      { name: 'Eve', role: 'admin' },
     ],
-    user: [
-      { name: 'Bob', role: 'user' },
-      { name: 'Dave', role: 'user' },
-    ],
+    user: [{ name: 'Bob', role: 'user' }],
   },
   'loop: group by role'
 );
 
 assertDeepEqual(
-  groupByReduce(users, (u) => u.role),
+  groupByReduce(users, 'role'),
   {
     admin: [
       { name: 'Alice', role: 'admin' },
-      { name: 'Charlie', role: 'admin' },
+      { name: 'Eve', role: 'admin' },
     ],
-    user: [
-      { name: 'Bob', role: 'user' },
-      { name: 'Dave', role: 'user' },
-    ],
+    user: [{ name: 'Bob', role: 'user' }],
   },
   'reduce: group by role'
 );
